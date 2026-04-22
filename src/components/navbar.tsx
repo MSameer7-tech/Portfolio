@@ -25,37 +25,33 @@ export default function Navbar() {
   }, [])
 
   const handleThemeToggle = () => {
-    if (isBlooming || !toggleBtnRef.current) return
+    const bloom = document.getElementById("theme-bloom")
+    if (isBlooming || !toggleBtnRef.current || !bloom) return
 
     const rect = toggleBtnRef.current.getBoundingClientRect()
     const centerX = rect.left + rect.width / 2
     const centerY = rect.top + rect.height / 2
-    const bloom = document.createElement("div")
     const nextTheme = theme === "dark" ? "light" : "dark"
-    const maxX = Math.max(centerX, window.innerWidth - centerX)
-    const maxY = Math.max(centerY, window.innerHeight - centerY)
-    const radius = Math.sqrt(maxX * maxX + maxY * maxY)
-    const scale = radius / 10
 
-    bloom.classList.add("theme-bloom", nextTheme)
-    bloom.style.left = `${centerX}px`
-    bloom.style.top = `${centerY}px`
-    document.body.appendChild(bloom)
+    bloom.dataset.nextTheme = nextTheme
+    bloom.style.setProperty("--x", `${centerX}px`)
+    bloom.style.setProperty("--y", `${centerY}px`)
 
     setIsBlooming(true)
 
     requestAnimationFrame(() => {
-      bloom.style.transform = `translate(-50%, -50%) scale(${scale})`
+      bloom.classList.add("active")
     })
 
     themeTimeoutRef.current = window.setTimeout(() => {
       toggleTheme()
-    }, 300)
+    }, 150)
 
     cleanupTimeoutRef.current = window.setTimeout(() => {
-      bloom.remove()
+      bloom.classList.remove("active")
+      bloom.removeAttribute("data-next-theme")
       setIsBlooming(false)
-    }, 800)
+    }, 600)
   }
 
   return (
