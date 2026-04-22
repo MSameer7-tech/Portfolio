@@ -18,6 +18,15 @@ export default function Navbar() {
   }, [])
 
   useEffect(() => {
+    if (document.getElementById("theme-bloom")) return
+
+    const bloom = document.createElement("div")
+    bloom.id = "theme-bloom"
+    bloom.setAttribute("aria-hidden", "true")
+    document.body.appendChild(bloom)
+  }, [])
+
+  useEffect(() => {
     return () => {
       if (themeTimeoutRef.current) window.clearTimeout(themeTimeoutRef.current)
       if (cleanupTimeoutRef.current) window.clearTimeout(cleanupTimeoutRef.current)
