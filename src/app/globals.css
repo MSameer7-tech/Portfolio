@@ -1,26 +1,73 @@
 @import "tailwindcss";
+@import "./portfolio.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Additional orbital animation utilities */
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(255, 255, 255, 0.25);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes neural-pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0.6);
+    opacity: 0.7;
+  }
+  70% {
+    transform: translate(-50%, -50%) scale(1.8);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.glow-pulse {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* ── Hero split-grid responsive ────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .hero-split-grid {
+    grid-template-columns: 1fr !important;
+    padding-top: 100px !important;
+    padding-bottom: 60px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-split-grid {
+    grid-template-columns: 1fr !important;
+    text-align: center;
+    padding-top: 90px !important;
+  }
+  .hero-split-grid h1 {
+    font-size: 2rem !important;
+  }
+  .hero-split-grid .hero-badge {
+    align-self: center !important;
+  }
+  .hero-split-grid .social-links {
+    justify-content: center;
+  }
+  .hero-split-grid .hero-actions {
+    justify-content: center;
+  }
+}
+
+/* ── Dark Mode Navbar Glass Override ──────────────────────────────────────── */
+[data-theme="dark"] .navbar {
+  background: rgba(15, 15, 15, 0.6) !important;
+  backdrop-filter: blur(16px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+[data-theme="dark"] .navbar.scrolled {
+  background: rgba(15, 15, 15, 0.75) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
 }
