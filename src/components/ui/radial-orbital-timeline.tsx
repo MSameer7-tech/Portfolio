@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "@/lib/utils"
-import { X, Zap, ChevronRight } from "lucide-react"
+import { X } from "lucide-react"
 import { useTheme } from "@/components/theme-provider"
 
 export interface OrbitalNode {
@@ -77,9 +77,14 @@ export function RadialOrbitalTimeline({ timelineData }: RadialOrbitalTimelinePro
     const [selected, setSelected] = useState<number | null>(null)
     const [hovered, setHovered] = useState<number | null>(null)
     const [deg, setDeg] = useState(0)
+    const [isMounted, setIsMounted] = useState(false)
     const animRef = useRef<number | null>(null)
     const pausedRef = useRef(false)
     const canvasRef = useRef<HTMLCanvasElement>(null)
+
+    useEffect(() => {
+        setTimeout(() => setIsMounted(true), 0)
+    }, [])
 
     const totalNodes = timelineData.length
     const baseAngles = timelineData.map((_, i) => (360 / totalNodes) * i)
@@ -130,7 +135,7 @@ export function RadialOrbitalTimeline({ timelineData }: RadialOrbitalTimelinePro
             ctx.stroke()
             ctx.shadowBlur = 0
         })
-    }, [selected, baseAngles, timelineData])
+    }, [selected, hovered, isLight, baseAngles, timelineData])
 
     const handleNodeClick = (id: number) => {
         setSelected(p => {
@@ -141,6 +146,11 @@ export function RadialOrbitalTimeline({ timelineData }: RadialOrbitalTimelinePro
     }
 
     const selectedNode = timelineData.find(n => n.id === selected)
+
+    // Definitively prevent hydration mismatch by skipping server render of dynamic nodes
+    if (!isMounted) {
+        return <div style={{ width: CONTAINER, height: CONTAINER }} className="flex items-center justify-center text-white/10 text-[10px] uppercase tracking-[0.2em]">Orbit Initialising...</div>
+    }
 
     return (
         <div

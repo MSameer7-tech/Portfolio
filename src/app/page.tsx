@@ -269,7 +269,7 @@ export default function Page() {
           <h2 className="section-title">Who I Am</h2>
           <div className="about-grid">
             <div className="about-content parallax-item reveal" data-speed="0.1" style={{ maxWidth: 700, textAlign: "left" }}>
-              <p style={{ marginBottom: "1rem" }}>I enjoy building systems that solve real problems, not just isolated features. My focus is on combining clean design with practical functionality — whether it's automation tools, AI-driven applications, or data-backed solutions.</p>
+              <p style={{ marginBottom: "1rem" }}>I enjoy building systems that solve real problems, not just isolated features. My focus is on combining clean design with practical functionality — whether it&apos;s automation tools, AI-driven applications, or data-backed solutions.</p>
               <p>I like thinking in terms of workflows: how data flows, how users interact, and how systems can be made smarter and more efficient. Most of my work revolves around turning ideas into usable, scalable applications with a strong emphasis on simplicity and performance.</p>
             </div>
             <div className="learning-section parallax-item about-right" data-speed="-0.1">

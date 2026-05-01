@@ -18,8 +18,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const saved = localStorage.getItem("theme")
     const sys = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
     const initial = (saved as Theme) || sys
-    setTheme(initial)
-    document.documentElement.setAttribute("data-theme", initial)
+    setTimeout(() => {
+      setTheme(initial)
+      document.documentElement.setAttribute("data-theme", initial)
+    }, 0)
   }, [])
 
   const toggleTheme = () => {

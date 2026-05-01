@@ -3313,6 +3313,70 @@ body.light-mode .hero-actions .btn-primary:hover {
     color: #000;
 }
 
+/* ── Light Theme Overrides for AI Hub Modal ── */
+[data-theme="light"] .modal-content-featured {
+    background: #ffffff !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 28px 90px rgba(0, 0, 0, 0.15) !important;
+}
+
+[data-theme="light"] .modal-featured-title {
+    color: #000000;
+}
+
+[data-theme="light"] .modal-featured-intro {
+    color: rgba(0, 0, 0, 0.65);
+}
+
+[data-theme="light"] .modal-subtle-label {
+    color: rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="light"] .modal-preview-item {
+    background: rgba(0, 0, 0, 0.02);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .modal-section-card,
+[data-theme="light"] .modal-future-section {
+    background: rgba(0, 0, 0, 0.02) !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="light"] .modal-section-title {
+    color: rgba(0, 0, 0, 0.85);
+}
+
+[data-theme="light"] .modal-feature-list li,
+[data-theme="light"] .modal-future-list li,
+[data-theme="light"] .modal-stack-items {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+[data-theme="light"] .modal-stack-label {
+    color: rgba(0, 0, 0, 0.45);
+}
+
+[data-theme="light"] .modal-actions-featured .btn-primary {
+    background: #000;
+    color: #fff;
+}
+
+[data-theme="light"] .modal-actions-featured .btn-outline {
+    border-color: rgba(0, 0, 0, 0.15);
+    color: rgba(0, 0, 0, 0.8);
+}
+
+[data-theme="light"] .project-close {
+    background: rgba(0, 0, 0, 0.05);
+    color: #000;
+}
+
+[data-theme="light"] .project-close:hover {
+    background: rgba(0, 0, 0, 0.1);
+    color: #000;
+}
+
 .modal-actions-featured .btn-outline {
     background: rgba(255, 255, 255, 0.04);
     color: #fff;
