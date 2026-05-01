@@ -2455,7 +2455,7 @@ body.light-mode .hero-actions .btn-primary:hover {
 
 /* Modals */
 .modal {
-    display: none;
+    display: flex; /* React handles conditional rendering; flex ensures it shows when rendered */
     position: fixed;
     z-index: 2000;
     left: 0;
@@ -2465,8 +2465,10 @@ body.light-mode .hero-actions .btn-primary:hover {
     background-color: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    align-items: center;
+    align-items: flex-start; /* Prevent clipping on long content */
     justify-content: center;
+    padding: 40px 0; /* Breathing room at top/bottom */
+    overflow-y: auto; /* Enable scrolling on the modal itself */
 }
 
 .modal-content {
@@ -2841,14 +2843,28 @@ body.light-mode .hero-actions .btn-primary:hover {
    Rich Project Modal — AI Hub
 ═══════════════════════════════════════════════════════════════════════════ */
 .modal-content-featured {
-    max-width: 900px;
-    width: 95vw;
-    max-height: 92vh;
-    overflow-y: auto;
-    padding: 2.5rem;
-    border-radius: 20px;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+    max-width: 1100px !important;
+    width: 90% !important;
+    max-height: none !important; /* Allow content to grow naturally */
+    overflow-y: visible !important; /* Parent handles scrolling */
+    padding: 0 !important; /* Managed by inner content */
+    background: #0a0a0a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 2.5rem;
+}
+
+.aihub-modal-reset * {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+@keyframes aihubFadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-animate {
+    animation: aihubFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .modal-content-featured::-webkit-scrollbar {
@@ -2886,10 +2902,8 @@ body.light-mode .hero-actions .btn-primary:hover {
 }
 
 .modal-featured-title {
-    font-size: clamp(1.8rem, 4vw, 2.6rem) !important;
     font-weight: 800;
     letter-spacing: -1px;
-    margin-bottom: 0.7rem !important;
 }
 
 .modal-featured-intro {
@@ -3110,8 +3124,7 @@ body.light-mode .hero-actions .btn-primary:hover {
 
     .modal-content h2,
     .modal-featured-title {
-        font-size: 1.2rem !important;
-        margin-bottom: 8px !important;
+        font-weight: 800;
     }
 
     .modal-body p,
@@ -3152,6 +3165,214 @@ body.light-mode .hero-actions .btn-primary:hover {
 }
 
 /* Impact Section Styling */
+.modal-content-featured {
+    width: min(92%, 1120px) !important;
+    max-width: 1120px !important;
+    margin: 0 auto !important;
+    padding: 3rem 2.25rem !important;
+    border-radius: 1.75rem !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    background: #0b0b0c !important;
+    box-shadow: 0 28px 90px rgba(0, 0, 0, 0.45) !important;
+}
+
+.modal-featured-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    width: min(100%, 980px);
+    margin: 0 auto;
+    padding: 0.5rem 0 1rem;
+}
+
+.modal-featured-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+}
+
+.modal-featured-badge {
+    margin-bottom: 0 !important;
+}
+
+.modal-featured-title {
+    font-size: clamp(2rem, 4vw, 3rem) !important;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    margin: 0;
+    color: #fff;
+}
+
+.modal-featured-intro {
+    max-width: 46rem;
+    margin: 0 auto;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.8;
+    font-size: 1.02rem;
+}
+
+.modal-architecture-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.modal-subtle-label {
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.3);
+    text-align: center;
+}
+
+.modal-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    align-items: center;
+}
+
+.modal-preview-item {
+    border-radius: 1rem;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.02);
+    aspect-ratio: 16 / 10;
+}
+
+.modal-preview-item-center {
+    transform: scale(1.04);
+}
+
+.modal-preview-item .modal-screenshot-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.modal-featured-body-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+    align-items: stretch;
+}
+
+.modal-section-card {
+    border-radius: 1rem !important;
+    padding: 1.75rem !important;
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.modal-future-section {
+    border-radius: 1rem !important;
+    padding: 1.75rem !important;
+    background: rgba(255, 255, 255, 0.02) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.modal-section-title {
+    margin-bottom: 0.4rem;
+    color: rgba(255, 255, 255, 0.78);
+}
+
+.modal-feature-list li,
+.modal-future-list li,
+.modal-stack-items {
+    color: rgba(255, 255, 255, 0.62);
+    line-height: 1.65;
+}
+
+.modal-stack-label {
+    color: rgba(255, 255, 255, 0.32);
+}
+
+.modal-actions-featured {
+    margin-top: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.9rem;
+    flex-wrap: wrap;
+}
+
+.modal-actions-featured .btn {
+    min-width: 160px;
+    border-radius: 999px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.modal-actions-featured .btn-primary {
+    background: #fff;
+    color: #000;
+}
+
+.modal-actions-featured .btn-outline {
+    background: rgba(255, 255, 255, 0.04);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.modal-actions-featured .btn:hover {
+    transform: translateY(-2px) scale(1.01);
+}
+
+@media (max-width: 1024px) {
+    .modal-content-featured {
+        width: min(92%, 980px) !important;
+        padding: 2.5rem 1.5rem !important;
+    }
+
+    .modal-featured-layout {
+        gap: 2.5rem;
+    }
+
+    .modal-featured-body-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .modal-content-featured {
+        width: 92% !important;
+        max-width: 92% !important;
+        padding: 1.5rem 1rem !important;
+        border-radius: 1.25rem !important;
+    }
+
+    .modal-featured-layout {
+        gap: 2rem;
+    }
+
+    .modal-featured-intro {
+        max-width: 36rem;
+    }
+
+    .modal-preview-grid {
+        grid-template-columns: 1fr;
+        gap: 0.9rem;
+    }
+
+    .modal-preview-item-center {
+        transform: none;
+    }
+
+    .modal-section-card,
+    .modal-future-section {
+        padding: 1.25rem !important;
+    }
+
+    .modal-actions-featured .btn {
+        width: 100%;
+    }
+}
+
 .impact-section {
     margin-top: 12px;
     /* mt-3 approx */
@@ -3592,6 +3813,31 @@ body.light-mode .hero-actions .btn-primary:hover {
     transform: scale(0.75) !important;
     transform-origin: center !important;
   }
+}
+
+/* ── Final navbar glass override ─────────────────────────────────────────── */
+.navbar {
+  background: rgba(12, 12, 14, 0.58) !important;
+  backdrop-filter: blur(18px) saturate(170%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(170%) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28) !important;
+}
+
+.navbar.scrolled {
+  background: rgba(12, 12, 14, 0.72) !important;
+  backdrop-filter: blur(22px) saturate(185%) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(185%) !important;
+}
+
+[data-theme="light"] .navbar {
+  background: rgba(255, 255, 255, 0.7) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="light"] .navbar.scrolled {
+  background: rgba(255, 255, 255, 0.84) !important;
 }
 
 @media (max-width: 768px) {

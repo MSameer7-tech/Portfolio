@@ -23,28 +23,30 @@ type ProjectEntry = {
 const projectData: Record<string, ProjectEntry> = {
   aihub: {
     title: "AI Hub",
-    desc: "A unified AI workspace combining chat, news, and learning in one seamless environment.",
+    desc: "Conversations, current affairs, and quiz practice unified into one intelligent workspace.",
     tech: ["React", "FastAPI", "Python", "LLM", "APIs"],
     link: "https://github.com/MSameer7-tech",
-    demoLink: "#",
+    demoLink: "https://ai-hub-rust.vercel.app/",
     featured: true,
-    cardImage: "/projects/aihub-chat.png",
+    cardImage: "/projects/aihub-chat-v2.png",
     screenshots: [
-      "/projects/aihub-chat.png",
-      "/projects/aihub-news.png",
-      "/projects/aihub-quiz.png",
+      "/projects/aihub-chat-v2.png",
+      "/projects/aihub-news-v2.png",
+      "/projects/aihub-quiz-v2.png",
     ],
     features: [
-      "Context-aware AI with multi-session memory",
-      "Real-time news integration with deduplication",
+      "AI-powered chat with multi-provider fallback (Groq, Gemini, and more)",
+      "Real-time categorized current affairs with UPSC-focused summaries",
+      "Timer-based quiz mode with difficulty levels and instant scoring",
+      "Graceful error handling, caching, and high-availability request routing",
     ],
     stackDetail: [
-      { label: "Frontend", items: "React, Tailwind CSS, Framer Motion" },
-      { label: "Backend", items: "FastAPI, Python" },
-      { label: "AI / Data", items: "Ollama (local LLM), News APIs, OpenTriviaDB" },
+      { label: "Frontend", items: "React (Vite), Tailwind CSS, Framer Motion, Axios" },
+      { label: "Backend", items: "FastAPI, Uvicorn, Python, Modular Services" },
+      { label: "AI / APIs", items: "Groq API, Gemini API, NewsAPI, GNews, NewsData" },
     ],
-    problem: "AI Hub is a full-stack application designed to unify chat, news, and learning into one intelligent workspace.",
-    future: ["Voice input", "User accounts", "PDF quiz generation"],
+    problem: "AI Hub combines chat, real-time current affairs, and exam-style quizzes into one cohesive AI product experience built for daily learning and retention.",
+    future: ["Authentication and personalized sessions", "Persistent chat history", "Streaming responses and analytics dashboard"],
   },
   kanye: {
     title: "Kanye Quotes App",
@@ -335,10 +337,10 @@ export default function Page() {
               <div className="featured-badge"><i className="fas fa-star" /> Featured Project</div>
               <div className="project-image-wrapper featured-image-wrapper">
                 <img
-                  src="/projects/aihub-chat.png"
+                  src="/projects/aihub-chat-v2.png"
                   alt="AI Hub — Chat Interface"
                   className="project-img featured-img image-preview"
-                  onClick={e => { e.stopPropagation(); handleOpenLightbox(projectData.aihub.screenshots || ["/projects/aihub-chat.png"], 0) }}
+                  onClick={e => { e.stopPropagation(); handleOpenLightbox(projectData.aihub.screenshots || ["/projects/aihub-chat-v2.png"], 0) }}
                 />
                 <div className="project-overlay">
                   <span className="view-text">View Details</span>
@@ -363,7 +365,7 @@ export default function Page() {
                   <span>React</span><span>FastAPI</span><span>Python</span><span>LLM</span><span>APIs</span>
                 </div>
                 <div className="project-actions">
-                  <a href="#" className="btn btn-primary btn-sm glow-effect button-hover" onClick={e => e.stopPropagation()}>
+                  <a href="https://ai-hub-rust.vercel.app/" className="btn btn-primary btn-sm glow-effect button-hover" onClick={e => e.stopPropagation()} target="_blank" rel="noreferrer">
                     <i className="fas fa-external-link-alt" /> Live Demo
                   </a>
                   <a href="https://github.com/MSameer7-tech" target="_blank" className="glow-link button-hover" onClick={e => e.stopPropagation()}>
@@ -651,30 +653,36 @@ export default function Page() {
             </button>
 
             {modalData.featured ? (
-              /* ── Rich AI Hub modal ── */
               <>
+                <div className="modal-featured-layout">
                 <div className="modal-featured-header">
                   <div className="modal-featured-badge"><i className="fas fa-robot" /> AI Project</div>
                   <h2 className="modal-featured-title">{modalData.title}</h2>
                   <p className="modal-featured-intro">{modalData.problem}</p>
                 </div>
 
-                {/* Screenshot gallery */}
                 {modalData.screenshots && (
-                  <div className="modal-screenshot-gallery">
-                    {modalData.screenshots.map((src, i) => (
-                      <div key={i} className="modal-screenshot-item">
-                        <img src={src} alt={`${modalData.title} screenshot ${i + 1}`} className="modal-screenshot-img image-preview" onClick={(e) => { e.stopPropagation(); handleOpenLightbox(modalData.screenshots!, i); }} />
-                      </div>
-                    ))}
-                  </div>
+                  <section className="modal-architecture-preview">
+                    <div className="modal-subtle-label">Product Surfaces</div>
+                    <div className="modal-preview-grid">
+                      {modalData.screenshots.map((src, i) => (
+                        <div key={i} className={`modal-preview-item ${i === 1 ? "modal-preview-item-center" : ""}`}>
+                          <img
+                            src={src}
+                            alt={`${modalData.title} screenshot ${i + 1}`}
+                            className="modal-screenshot-img image-preview"
+                            onClick={(e) => { e.stopPropagation(); handleOpenLightbox(modalData.screenshots!, i); }}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </section>
                 )}
 
-                <div className="modal-featured-body">
-                  {/* Key features */}
+                <div className="modal-featured-body-grid">
                   {modalData.features && (
-                    <div className="modal-section">
-                      <h4 className="modal-section-title"><i className="fas fa-bolt" /> Key Features</h4>
+                    <div className="modal-section modal-section-card">
+                      <h4 className="modal-section-title"><i className="fas fa-bolt" /> Capabilities</h4>
                       <ul className="modal-feature-list">
                         {modalData.features.map((f, i) => (
                           <li key={i}><i className="fas fa-check-circle" /> {f}</li>
@@ -683,10 +691,9 @@ export default function Page() {
                     </div>
                   )}
 
-                  {/* Tech stack */}
                   {modalData.stackDetail && (
-                    <div className="modal-section">
-                      <h4 className="modal-section-title"><i className="fas fa-layer-group" /> Tech Stack</h4>
+                    <div className="modal-section modal-section-card">
+                      <h4 className="modal-section-title"><i className="fas fa-layer-group" /> Engineering</h4>
                       <div className="modal-stack-grid">
                         {modalData.stackDetail.map((s, i) => (
                           <div key={i} className="modal-stack-row">
@@ -697,27 +704,27 @@ export default function Page() {
                       </div>
                     </div>
                   )}
-
-                  {/* Future plans */}
-                  {modalData.future && (
-                    <div className="modal-section">
-                      <h4 className="modal-section-title"><i className="fas fa-rocket" /> Future Plans</h4>
-                      <ul className="modal-future-list">
-                        {modalData.future.map((f, i) => (
-                          <li key={i}>{f}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
                 </div>
 
-                <div className="modal-actions mt-4">
-                  <a href={modalData.demoLink || "#"} className="btn btn-primary glow-effect" target="_blank">
+                {modalData.future && (
+                  <div className="modal-section modal-future-section">
+                    <h4 className="modal-section-title"><i className="fas fa-rocket" /> Future Improvements</h4>
+                    <ul className="modal-future-list">
+                      {modalData.future.map((f, i) => (
+                        <li key={i}>{f}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                <div className="modal-actions modal-actions-featured">
+                  <a href={modalData.demoLink || "#"} className="btn btn-primary" target="_blank">
                     <i className="fas fa-external-link-alt" /> Live Demo
                   </a>
-                  <a href={modalData.link || "#"} className="btn btn-outline glow-effect" target="_blank">
+                  <a href={modalData.link || "#"} className="btn btn-outline" target="_blank">
                     <i className="fab fa-github" /> GitHub
                   </a>
+                </div>
                 </div>
               </>
             ) : (
