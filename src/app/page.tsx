@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { RadialOrbitalTimelineDemo } from "@/components/radial-demo"
 import { useTheme } from "@/components/theme-provider"
 
@@ -102,6 +102,12 @@ const projectData: Record<string, ProjectEntry> = {
   },
 }
 
+/** Public GitHub login — stats widgets + heatmap + repos API */
+const GITHUB_USERNAME = "MSameer7-tech"
+
+/** Public streak widget (readme-stats card is served locally via /api/github-stats-svg). */
+const GITHUB_STREAK_STATS_ORIGIN = "https://streak-stats.demolab.com"
+
 type Repo = { name: string; description: string | null; html_url: string; language: string | null; stargazers_count: number; forks_count: number; fork: boolean }
 
 export default function Page() {
@@ -169,6 +175,21 @@ export default function Page() {
   const [repos, setRepos] = useState<Repo[]>([])
   const taglines = ["AI & ML Student", "Python Developer", "Automation Builder"]
 
+  const readmeStatsTheme = theme === "dark" ? "radical" : "default"
+  const githubReadmeStatsSrc = useMemo(
+    () => `/api/github-stats-svg?theme=${readmeStatsTheme}`,
+    [readmeStatsTheme]
+  )
+
+  const githubStreakStatsSrc = useMemo(() => {
+    const q = new URLSearchParams({
+      user: GITHUB_USERNAME,
+      theme: readmeStatsTheme,
+      hide_border: "false",
+    })
+    return `${GITHUB_STREAK_STATS_ORIGIN}/?${q.toString()}`
+  }, [readmeStatsTheme])
+
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const card = e.currentTarget
     const rect = card.getBoundingClientRect()
@@ -212,7 +233,7 @@ export default function Page() {
 
   // ── GitHub repos ──────────────────────────────────────────────────────────
   useEffect(() => {
-    fetch("https://api.github.com/users/MSameer7-tech/repos?sort=updated&per_page=6")
+    fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=6`)
       .then(r => r.json())
       .then((data: Repo[]) => Array.isArray(data) && setRepos(data.filter(r => !r.fork)))
       .catch(() => { })
@@ -519,11 +540,26 @@ export default function Page() {
           <h2 className="section-title">GitHub Activity</h2>
           <p className="section-subtitle">Visualizing my open-source contributions and development frequency.</p>
           <div className="github-heatmap-container tilt-card parallax-item" data-speed="0.05">
-            <img id="github-heatmap-img" src={`https://ghchart.rshah.org/${theme === "dark" ? "FFFFFF" : "000000"}/MSameer7-tech`} alt="GitHub Contribution Heatmap" />
+            <img id="github-heatmap-img" src={`https://ghchart.rshah.org/${theme === "dark" ? "FFFFFF" : "000000"}/${GITHUB_USERNAME}`} alt="GitHub Contribution Heatmap" />
           </div>
           <div className="github-container mt-4">
             <div className="github-stats-wrapper tilt-card">
-              <img id="github-stats-img" src={`https://github-readme-stats.vercel.app/api?username=MSameer7-tech&show_icons=true&theme=radical&hide_border=true&bg_color=00000000&text_color=${theme === "dark" ? "ffffff" : "000000"}&icon_color=${theme === "dark" ? "ffffff" : "000000"}&title_color=${theme === "dark" ? "ffffff" : "000000"}`} alt="GitHub Stats" />
+              <img
+                className="github-readme-stats-img"
+                src={githubReadmeStatsSrc}
+                alt={`${GITHUB_USERNAME} GitHub stats`}
+                width={495}
+                decoding="async"
+                referrerPolicy="no-referrer"
+              />
+              <img
+                className="github-streak-stats-img"
+                src={githubStreakStatsSrc}
+                alt={`${GITHUB_USERNAME} contribution streak`}
+                width={495}
+                decoding="async"
+                referrerPolicy="no-referrer"
+              />
             </div>
             <h3 className="subsection-title mt-4">Top Repositories</h3>
             <div className="repos-grid" id="repos-container">
